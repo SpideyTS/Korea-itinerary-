@@ -1,0 +1,1823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🇰🇷 SEOUL 2026 — Your Digital Seoul Companion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+/* ==============================
+   DESIGN TOKENS
+============================== */
+:root {
+  --lavender: #c5b8f0;
+  --lavender-light: #e8e2ff;
+  --lavender-deep: #9b8de0;
+  --pink: #f5c0d0;
+  --pink-light: #fde8ef;
+  --pink-deep: #e8a0b8;
+  --blue: #b8d8f0;
+  --blue-light: #ddeeff;
+  --blue-deep: #7fb8e8;
+  --cream: #fdf8f2;
+  --cream-dark: #f5ede0;
+  --white: #ffffff;
+  --text-dark: #2d2640;
+  --text-mid: #5a5170;
+  --text-light: #9990b0;
+  --glass: rgba(255,255,255,0.55);
+  --glass-border: rgba(255,255,255,0.7);
+  --shadow: 0 8px 32px rgba(120,100,160,0.12);
+  --shadow-hover: 0 16px 48px rgba(120,100,160,0.22);
+  --radius: 20px;
+  --radius-sm: 12px;
+  --radius-lg: 32px;
+  --font-display: 'DM Serif Display', serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-accent: 'Playfair Display', serif;
+}
+
+/* ==============================
+   RESET & BASE
+============================== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--cream);
+  color: var(--text-dark);
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* ==============================
+   GLOBAL GRADIENT BG
+============================== */
+.bg-orbs {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  overflow: hidden;
+}
+.orb {
+  position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.35;
+  animation: drift 18s ease-in-out infinite alternate;
+}
+.orb-1 { width: 600px; height: 600px; background: var(--lavender); top: -200px; left: -150px; animation-delay: 0s; }
+.orb-2 { width: 500px; height: 500px; background: var(--pink); top: 30%; right: -150px; animation-delay: -6s; }
+.orb-3 { width: 400px; height: 400px; background: var(--blue); bottom: -100px; left: 30%; animation-delay: -12s; }
+@keyframes drift {
+  from { transform: translate(0,0) scale(1); }
+  to { transform: translate(40px, 30px) scale(1.08); }
+}
+
+/* ==============================
+   NAVBAR
+============================== */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--glass-border);
+  padding: 0 24px;
+  height: 60px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-logo { font-family: var(--font-display); font-size: 1.15rem; color: var(--text-dark); text-decoration: none; letter-spacing: -0.02em; }
+.nav-logo span { color: var(--lavender-deep); }
+.nav-links { display: flex; gap: 6px; align-items: center; }
+.nav-links a {
+  font-size: 0.8rem; font-weight: 500; color: var(--text-mid);
+  text-decoration: none; padding: 6px 12px; border-radius: 20px;
+  transition: all 0.2s;
+}
+.nav-links a:hover { background: var(--lavender-light); color: var(--lavender-deep); }
+.nav-add-btn {
+  background: linear-gradient(135deg, var(--lavender-deep), var(--pink-deep));
+  color: white !important; border-radius: 20px !important; padding: 7px 16px !important;
+  font-size: 0.8rem !important; cursor: pointer; transition: all 0.2s !important;
+}
+.nav-add-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(155,141,224,0.4) !important; }
+.hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+.hamburger span { display: block; width: 22px; height: 2px; background: var(--text-dark); border-radius: 2px; transition: all 0.3s; }
+
+/* ==============================
+   SECTIONS & LAYOUT
+============================== */
+section { position: relative; z-index: 1; }
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+.section-title {
+  font-family: var(--font-display); font-size: clamp(1.6rem, 4vw, 2.4rem);
+  color: var(--text-dark); letter-spacing: -0.02em; margin-bottom: 8px;
+}
+.section-sub { color: var(--text-mid); font-size: 0.95rem; margin-bottom: 40px; }
+
+/* ==============================
+   GLASS CARD
+============================== */
+.glass {
+  background: var(--glass);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+/* ==============================
+   HERO SECTION
+============================== */
+#hero {
+  min-height: 100vh; display: flex; align-items: center; justify-content: center;
+  text-align: center; padding: 80px 24px 40px;
+  position: relative; overflow: hidden;
+}
+.hero-content { position: relative; z-index: 2; }
+.hero-flag { font-size: 3rem; margin-bottom: 12px; display: block; animation: float 4s ease-in-out infinite; }
+@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+.hero-title {
+  font-family: var(--font-display); font-size: clamp(3rem, 10vw, 7rem);
+  line-height: 0.95; letter-spacing: -0.04em; color: var(--text-dark);
+  margin-bottom: 8px;
+}
+.hero-title em { font-style: italic; color: var(--lavender-deep); }
+.hero-sub { font-size: clamp(0.95rem, 2vw, 1.1rem); color: var(--text-mid); font-weight: 300; margin-bottom: 40px; letter-spacing: 0.04em; }
+
+/* Countdown */
+.countdown-wrap { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-bottom: 40px; }
+.countdown-unit {
+  background: var(--glass);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  padding: 20px 28px; min-width: 90px;
+  box-shadow: var(--shadow);
+}
+.countdown-num {
+  font-family: var(--font-display); font-size: clamp(2rem, 6vw, 3.5rem);
+  color: var(--text-dark); line-height: 1; display: block;
+}
+.countdown-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-light); margin-top: 6px; }
+
+/* Landed state */
+.landed-msg {
+  display: none; font-family: var(--font-display); font-size: clamp(2rem, 6vw, 4rem);
+  color: var(--text-dark); animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.04)} }
+
+/* Clouds */
+.cloud {
+  position: absolute; opacity: 0.5; pointer-events: none;
+  animation: cloudDrift linear infinite;
+}
+.cloud svg { fill: white; filter: drop-shadow(0 4px 8px rgba(180,160,210,0.2)); }
+@keyframes cloudDrift { from{transform:translateX(-200px)} to{transform:translateX(calc(100vw + 200px))} }
+
+/* Airplane */
+.airplane {
+  position: absolute; font-size: 2rem; pointer-events: none;
+  animation: flyAcross 12s linear infinite;
+  top: 20%; opacity: 0.7;
+}
+@keyframes flyAcross { from{left:-80px; transform:rotate(0deg)} to{left:calc(100% + 80px); transform:rotate(0deg)} }
+
+/* ==============================
+   DASHBOARD
+============================== */
+#dashboard { padding: 80px 0; }
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; }
+.stat-card {
+  background: var(--glass);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 24px 20px; text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.stat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+.stat-emoji { font-size: 1.8rem; margin-bottom: 8px; display: block; }
+.stat-num {
+  font-family: var(--font-display); font-size: 2.2rem; color: var(--lavender-deep);
+  letter-spacing: -0.04em; display: block;
+}
+.stat-label { font-size: 0.75rem; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 4px; }
+.stat-bar { height: 4px; background: var(--lavender-light); border-radius: 4px; margin-top: 12px; overflow: hidden; }
+.stat-bar-fill { height: 100%; background: linear-gradient(90deg, var(--lavender-deep), var(--pink-deep)); border-radius: 4px; transition: width 1.5s ease; }
+
+/* ==============================
+   PASSPORT
+============================== */
+#passport { padding: 80px 0; }
+.passport-card {
+  background: linear-gradient(135deg, #f0ebff, #fce8f0, #e8f5ff);
+  border-radius: var(--radius-lg); padding: 40px; position: relative; overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.8);
+  box-shadow: 0 20px 60px rgba(120,100,160,0.15);
+}
+.passport-header { display: flex; align-items: center; gap: 16px; margin-bottom: 32px; }
+.passport-cover {
+  width: 72px; height: 96px; background: linear-gradient(135deg, var(--lavender-deep), var(--pink-deep));
+  border-radius: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  box-shadow: 0 8px 24px rgba(120,100,160,0.3); flex-shrink: 0;
+}
+.passport-cover-flag { font-size: 1.8rem; }
+.passport-cover-text { font-size: 0.45rem; color: white; letter-spacing: 0.15em; text-transform: uppercase; margin-top: 4px; }
+.passport-info h2 { font-family: var(--font-display); font-size: 1.8rem; color: var(--text-dark); }
+.passport-info p { color: var(--text-mid); font-size: 0.9rem; margin-top: 4px; }
+.passport-progress { background: rgba(255,255,255,0.6); border-radius: 12px; padding: 16px 20px; margin-bottom: 28px; }
+.passport-progress-bar { height: 8px; background: rgba(180,160,210,0.3); border-radius: 8px; overflow: hidden; margin-top: 8px; }
+.passport-progress-fill { height: 100%; background: linear-gradient(90deg, var(--lavender-deep), var(--pink-deep)); border-radius: 8px; transition: width 0.8s ease; }
+.stamps-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 12px; }
+.stamp {
+  background: rgba(255,255,255,0.7); border-radius: 12px; padding: 14px; text-align: center;
+  border: 2px dashed rgba(180,160,210,0.4); transition: all 0.3s; cursor: pointer;
+  position: relative; overflow: hidden;
+}
+.stamp.stamped { border-style: solid; border-color: var(--lavender-deep); background: rgba(197,184,240,0.15); }
+.stamp.stamped::after {
+  content: '✓'; position: absolute; top: 4px; right: 8px;
+  font-size: 0.7rem; color: var(--lavender-deep); font-weight: 700;
+}
+.stamp-emoji { font-size: 1.5rem; display: block; margin-bottom: 6px; }
+.stamp-name { font-size: 0.65rem; font-weight: 600; color: var(--text-mid); line-height: 1.3; }
+.stamp-date { font-size: 0.6rem; color: var(--text-light); margin-top: 4px; }
+
+/* ==============================
+   DAILY ITINERARY
+============================== */
+#itinerary { padding: 80px 0; }
+.day-cards { display: flex; flex-direction: column; gap: 20px; }
+.day-card {
+  background: var(--glass);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  overflow: hidden; transition: box-shadow 0.3s;
+}
+.day-card:hover { box-shadow: var(--shadow-hover); }
+.day-header {
+  padding: 24px 28px; cursor: pointer;
+  display: flex; align-items: center; justify-content: space-between;
+  background: linear-gradient(135deg, rgba(197,184,240,0.2), rgba(245,192,208,0.15));
+  border-bottom: 1px solid rgba(255,255,255,0.5);
+  user-select: none;
+}
+.day-header-left { display: flex; align-items: center; gap: 16px; }
+.day-badge {
+  width: 48px; height: 48px; border-radius: 14px;
+  background: linear-gradient(135deg, var(--lavender-deep), var(--pink-deep));
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); color: white; font-size: 1rem; font-weight: 700;
+  flex-shrink: 0; box-shadow: 0 4px 12px rgba(155,141,224,0.4);
+}
+.day-title-area h3 { font-family: var(--font-display); font-size: 1.3rem; color: var(--text-dark); }
+.day-title-area p { font-size: 0.8rem; color: var(--text-mid); margin-top: 2px; }
+.day-meta { display: flex; gap: 12px; align-items: center; }
+.day-meta-chip {
+  background: rgba(255,255,255,0.7); border-radius: 20px; padding: 4px 12px;
+  font-size: 0.72rem; color: var(--text-mid); font-weight: 500;
+}
+.day-chevron { font-size: 1rem; color: var(--text-light); transition: transform 0.3s; }
+.day-card.open .day-chevron { transform: rotate(180deg); }
+
+.day-body { display: none; padding: 0 28px 28px; }
+.day-card.open .day-body { display: block; }
+
+.day-info-strip {
+  display: flex; gap: 12px; flex-wrap: wrap; padding: 16px 0;
+  border-bottom: 1px solid rgba(180,160,210,0.2); margin-bottom: 20px;
+}
+.day-info-item { display: flex; align-items: center; gap: 6px; font-size: 0.8rem; color: var(--text-mid); }
+.day-info-icon { font-size: 1rem; }
+
+.cat-section { margin-bottom: 24px; }
+.cat-title {
+  font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em;
+  color: var(--text-light); font-weight: 600; margin-bottom: 12px;
+  display: flex; align-items: center; gap: 8px;
+}
+.cat-title::after { content: ''; flex: 1; height: 1px; background: rgba(180,160,210,0.3); }
+.loc-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+
+/* Location Card */
+.loc-card {
+  background: rgba(255,255,255,0.75); border: 1px solid rgba(255,255,255,0.9);
+  border-radius: var(--radius); padding: 16px; position: relative;
+  transition: all 0.3s; cursor: pointer;
+}
+.loc-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(120,100,160,0.15); }
+.loc-card.visited { background: rgba(197,184,240,0.15); border-color: var(--lavender); }
+.loc-card-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 8px; }
+.loc-cat-badge {
+  font-size: 0.65rem; padding: 3px 10px; border-radius: 20px;
+  background: var(--lavender-light); color: var(--lavender-deep); font-weight: 600; letter-spacing: 0.05em;
+}
+.loc-actions { display: flex; gap: 6px; }
+.loc-btn {
+  width: 28px; height: 28px; border-radius: 8px; border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; font-size: 0.85rem;
+  transition: all 0.2s;
+}
+.loc-btn:hover { transform: scale(1.1); }
+.btn-fav { background: var(--pink-light); }
+.btn-fav.active { background: var(--pink); }
+.btn-visit { background: var(--lavender-light); }
+.btn-visit.active { background: var(--lavender); }
+.loc-name { font-family: var(--font-display); font-size: 1rem; color: var(--text-dark); margin-bottom: 4px; line-height: 1.2; }
+.loc-addr { font-size: 0.72rem; color: var(--text-light); margin-bottom: 10px; line-height: 1.4; }
+.loc-notes { font-size: 0.78rem; color: var(--text-mid); background: rgba(255,255,255,0.6); border-radius: 8px; padding: 8px 10px; margin-bottom: 10px; line-height: 1.5; }
+.loc-rating { display: flex; gap: 2px; margin-bottom: 10px; }
+.star { font-size: 0.75rem; cursor: pointer; transition: transform 0.15s; }
+.star:hover { transform: scale(1.2); }
+.loc-links { display: flex; gap: 8px; }
+.loc-link {
+  flex: 1; padding: 7px; border-radius: 10px; border: none; cursor: pointer;
+  font-size: 0.7rem; font-weight: 600; font-family: var(--font-body);
+  transition: all 0.2s; text-align: center;
+}
+.loc-link-naver { background: var(--blue-light); color: var(--blue-deep); }
+.loc-link-naver:hover { background: var(--blue); }
+.loc-link-dir { background: var(--lavender-light); color: var(--lavender-deep); }
+.loc-link-dir:hover { background: var(--lavender); }
+.visited-stamp {
+  position: absolute; top: 8px; left: 8px; font-size: 0.6rem;
+  background: var(--lavender-deep); color: white; padding: 2px 8px;
+  border-radius: 10px; font-weight: 600;
+}
+
+/* ==============================
+   MAP SECTION
+============================== */
+#map-section { padding: 80px 0; }
+.map-container {
+  background: var(--glass);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.map-toolbar {
+  padding: 20px 24px; border-bottom: 1px solid rgba(180,160,210,0.2);
+  display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
+}
+.map-filter-btn {
+  padding: 6px 14px; border-radius: 20px; border: 1px solid rgba(180,160,210,0.3);
+  background: rgba(255,255,255,0.7); font-size: 0.75rem; font-weight: 600;
+  color: var(--text-mid); cursor: pointer; transition: all 0.2s; font-family: var(--font-body);
+}
+.map-filter-btn.active { background: var(--lavender-light); border-color: var(--lavender-deep); color: var(--lavender-deep); }
+.map-filter-btn:hover { background: var(--lavender-light); }
+.map-search {
+  flex: 1; min-width: 160px; padding: 7px 14px; border-radius: 20px;
+  border: 1px solid rgba(180,160,210,0.3); background: rgba(255,255,255,0.7);
+  font-size: 0.8rem; font-family: var(--font-body); color: var(--text-dark);
+  outline: none;
+}
+.map-search:focus { border-color: var(--lavender-deep); }
+
+.map-area {
+  position: relative; height: 480px;
+  background: linear-gradient(135deg, #e8e2ff 0%, #fde8ef 40%, #ddeeff 100%);
+  overflow: hidden;
+}
+.map-bg-art { position: absolute; inset: 0; opacity: 0.08; pointer-events: none; }
+.map-pin {
+  position: absolute; cursor: pointer; z-index: 10;
+  transform: translate(-50%, -100%);
+  transition: transform 0.2s;
+}
+.map-pin:hover { transform: translate(-50%, -100%) scale(1.2); z-index: 20; }
+.map-pin-dot {
+  width: 36px; height: 36px; border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg); display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 12px rgba(120,100,160,0.3);
+  border: 2px solid white;
+}
+.map-pin-dot span { transform: rotate(45deg); font-size: 0.9rem; }
+.map-pin-label {
+  background: white; border-radius: 8px; padding: 4px 8px; font-size: 0.65rem;
+  font-weight: 600; color: var(--text-dark); white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-top: 4px;
+  text-align: center; max-width: 100px; overflow: hidden; text-overflow: ellipsis;
+}
+.map-popup {
+  position: absolute; background: white; border-radius: var(--radius); padding: 16px;
+  box-shadow: var(--shadow-hover); z-index: 100; min-width: 180px; max-width: 220px;
+  border: 1px solid var(--glass-border); display: none;
+}
+.map-popup h4 { font-family: var(--font-display); font-size: 0.95rem; margin-bottom: 4px; }
+.map-popup p { font-size: 0.72rem; color: var(--text-light); margin-bottom: 10px; }
+.map-popup-btns { display: flex; gap: 8px; }
+.map-popup-btn {
+  flex: 1; padding: 6px; border-radius: 8px; border: none; cursor: pointer;
+  font-size: 0.65rem; font-weight: 600; font-family: var(--font-body);
+}
+.map-day-labels { position: absolute; inset: 0; pointer-events: none; }
+.map-day-label {
+  position: absolute; background: rgba(255,255,255,0.85); backdrop-filter: blur(10px);
+  border-radius: 10px; padding: 6px 12px; font-size: 0.72rem; font-weight: 700;
+  color: var(--text-mid); border: 1px solid rgba(255,255,255,0.9);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+/* ==============================
+   CHIBI'S DISCOVERIES
+============================== */
+#discoveries { padding: 80px 0; }
+.disco-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+.disco-card {
+  background: var(--glass);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow); padding: 20px; cursor: pointer; transition: all 0.3s;
+}
+.disco-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+.disco-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+.disco-tag {
+  font-size: 0.65rem; background: var(--lavender-light); color: var(--lavender-deep);
+  padding: 3px 10px; border-radius: 20px; font-weight: 600;
+}
+.disco-rating { font-size: 0.75rem; }
+.disco-name { font-family: var(--font-display); font-size: 1.1rem; color: var(--text-dark); margin-bottom: 6px; }
+.disco-reason { font-size: 0.78rem; color: var(--text-mid); line-height: 1.5; margin-bottom: 12px; }
+.disco-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.disco-chip {
+  font-size: 0.65rem; padding: 3px 10px; border-radius: 20px;
+  background: rgba(255,255,255,0.7); color: var(--text-mid); border: 1px solid rgba(180,160,210,0.3);
+}
+
+/* ==============================
+   FAVORITES
+============================== */
+#favorites { padding: 80px 0; }
+.fav-empty { text-align: center; padding: 60px 24px; color: var(--text-light); }
+.fav-empty-icon { font-size: 3rem; margin-bottom: 12px; }
+.fav-empty p { font-size: 0.9rem; }
+
+/* ==============================
+   SEARCH OVERLAY
+============================== */
+.search-overlay {
+  position: fixed; inset: 0; z-index: 200; background: rgba(40,30,60,0.5);
+  backdrop-filter: blur(10px); display: none; align-items: flex-start; justify-content: center;
+  padding-top: 100px;
+}
+.search-overlay.open { display: flex; }
+.search-box {
+  background: white; border-radius: var(--radius-lg); width: 100%; max-width: 560px;
+  overflow: hidden; box-shadow: 0 32px 80px rgba(40,30,60,0.3);
+}
+.search-input-wrap { display: flex; align-items: center; gap: 12px; padding: 20px 24px; border-bottom: 1px solid rgba(180,160,210,0.2); }
+.search-icon { font-size: 1.2rem; }
+.search-input {
+  flex: 1; border: none; outline: none; font-size: 1.1rem; font-family: var(--font-body);
+  color: var(--text-dark);
+}
+.search-close { background: var(--lavender-light); border: none; width: 30px; height: 30px; border-radius: 8px; cursor: pointer; font-size: 0.8rem; }
+.search-results { max-height: 400px; overflow-y: auto; padding: 12px; }
+.search-result-item {
+  display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: var(--radius-sm);
+  cursor: pointer; transition: background 0.2s;
+}
+.search-result-item:hover { background: var(--lavender-light); }
+.search-result-cat { font-size: 1rem; }
+.search-result-info h4 { font-size: 0.9rem; font-weight: 600; color: var(--text-dark); }
+.search-result-info p { font-size: 0.75rem; color: var(--text-light); }
+.search-empty { text-align: center; padding: 32px; color: var(--text-light); font-size: 0.9rem; }
+
+/* ==============================
+   ADD LOCATION MODAL
+============================== */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 300; background: rgba(40,30,60,0.5);
+  backdrop-filter: blur(10px); display: none; align-items: center; justify-content: center;
+  padding: 20px;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: white; border-radius: var(--radius-lg); width: 100%; max-width: 540px;
+  max-height: 90vh; overflow-y: auto; box-shadow: 0 32px 80px rgba(40,30,60,0.3);
+}
+.modal-header {
+  padding: 28px 28px 20px; position: sticky; top: 0; background: white; z-index: 10;
+  border-bottom: 1px solid rgba(180,160,210,0.2);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.modal-header h2 { font-family: var(--font-display); font-size: 1.4rem; color: var(--text-dark); }
+.modal-close {
+  background: var(--lavender-light); border: none; width: 36px; height: 36px;
+  border-radius: 10px; cursor: pointer; font-size: 1rem;
+}
+.modal-body { padding: 24px 28px 28px; }
+.form-group { margin-bottom: 18px; }
+.form-label { display: block; font-size: 0.78rem; font-weight: 600; color: var(--text-mid); margin-bottom: 7px; text-transform: uppercase; letter-spacing: 0.08em; }
+.form-input {
+  width: 100%; padding: 10px 14px; border-radius: var(--radius-sm);
+  border: 1.5px solid rgba(180,160,210,0.3); font-size: 0.9rem; font-family: var(--font-body);
+  color: var(--text-dark); background: rgba(248,245,255,0.5);
+  outline: none; transition: border-color 0.2s;
+}
+.form-input:focus { border-color: var(--lavender-deep); }
+.form-input::placeholder { color: var(--text-light); }
+.form-select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239990b0' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 40px; cursor: pointer; }
+.form-textarea { min-height: 80px; resize: vertical; }
+.rating-input { display: flex; gap: 8px; }
+.rating-star { font-size: 1.5rem; cursor: pointer; transition: transform 0.15s; }
+.rating-star:hover { transform: scale(1.2); }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.btn-primary {
+  width: 100%; padding: 14px; border-radius: var(--radius);
+  background: linear-gradient(135deg, var(--lavender-deep), var(--pink-deep));
+  color: white; border: none; font-size: 1rem; font-weight: 600; font-family: var(--font-body);
+  cursor: pointer; transition: all 0.3s; margin-top: 8px;
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(155,141,224,0.4); }
+
+/* ==============================
+   FLOATING ADD BTN
+============================== */
+.fab {
+  position: fixed; bottom: 28px; right: 28px; z-index: 90;
+  width: 56px; height: 56px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--lavender-deep), var(--pink-deep));
+  border: none; cursor: pointer; font-size: 1.5rem; color: white;
+  box-shadow: 0 8px 24px rgba(155,141,224,0.5);
+  transition: all 0.3s; display: flex; align-items: center; justify-content: center;
+}
+.fab:hover { transform: scale(1.1); box-shadow: 0 12px 32px rgba(155,141,224,0.6); }
+
+/* ==============================
+   EXPORT/IMPORT CONTROLS
+============================== */
+.data-controls {
+  display: flex; gap: 12px; flex-wrap: wrap; margin-top: 24px;
+}
+.btn-secondary {
+  padding: 10px 20px; border-radius: var(--radius);
+  border: 1.5px solid rgba(180,160,210,0.4);
+  background: rgba(255,255,255,0.7); font-size: 0.85rem; font-weight: 600;
+  font-family: var(--font-body); cursor: pointer; color: var(--text-mid);
+  transition: all 0.2s;
+}
+.btn-secondary:hover { background: var(--lavender-light); border-color: var(--lavender-deep); color: var(--lavender-deep); }
+
+/* ==============================
+   FLIGHT MODE
+============================== */
+.flight-mode-active .orb { opacity: 0.6; }
+.flight-plane {
+  position: fixed; pointer-events: none; z-index: 50; font-size: 2.5rem;
+  animation: flightMode 8s linear infinite;
+  display: none;
+}
+.flight-mode-active .flight-plane { display: block; }
+@keyframes flightMode {
+  0% { left: -100px; top: 15%; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { left: calc(100vw + 100px); top: 40%; opacity: 0; }
+}
+
+/* ==============================
+   MEMORY GALLERY
+============================== */
+#gallery { padding: 80px 0; }
+.gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+.gallery-item {
+  border-radius: var(--radius); overflow: hidden; position: relative; aspect-ratio: 1;
+  background: var(--lavender-light); cursor: pointer; transition: transform 0.3s;
+}
+.gallery-item:hover { transform: scale(1.03); }
+.gallery-item img { width: 100%; height: 100%; object-fit: cover; }
+.gallery-item-label {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: linear-gradient(transparent, rgba(40,30,60,0.6));
+  padding: 20px 12px 10px; color: white; font-size: 0.75rem; font-weight: 600;
+}
+.gallery-add {
+  border-radius: var(--radius); overflow: hidden; aspect-ratio: 1;
+  background: rgba(255,255,255,0.5); border: 2px dashed rgba(180,160,210,0.4);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.2s; color: var(--text-light);
+}
+.gallery-add:hover { background: var(--lavender-light); border-color: var(--lavender-deep); color: var(--lavender-deep); }
+.gallery-add-icon { font-size: 2rem; margin-bottom: 8px; }
+.gallery-add-text { font-size: 0.75rem; font-weight: 600; }
+
+/* ==============================
+   TOAST
+============================== */
+.toast {
+  position: fixed; bottom: 90px; right: 24px; z-index: 500;
+  background: var(--text-dark); color: white; padding: 12px 20px;
+  border-radius: var(--radius); font-size: 0.85rem; font-weight: 500;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2); transform: translateX(120%);
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.toast.show { transform: translateX(0); }
+
+/* ==============================
+   CONFETTI
+============================== */
+.confetti-piece {
+  position: fixed; pointer-events: none; z-index: 1000;
+  width: 10px; height: 10px; border-radius: 2px;
+  animation: confettiFall linear forwards;
+}
+@keyframes confettiFall {
+  0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+
+/* ==============================
+   CONTROLS SECTION
+============================== */
+#controls { padding: 80px 0 40px; }
+.controls-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+.control-card {
+  background: var(--glass); backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border); border-radius: var(--radius);
+  padding: 20px; text-align: center; box-shadow: var(--shadow);
+}
+.control-card-icon { font-size: 1.8rem; margin-bottom: 8px; }
+.control-card h4 { font-size: 0.9rem; font-weight: 600; color: var(--text-dark); margin-bottom: 6px; }
+.control-card p { font-size: 0.75rem; color: var(--text-light); margin-bottom: 14px; }
+.toggle-btn {
+  padding: 8px 20px; border-radius: 20px; border: 1.5px solid rgba(180,160,210,0.4);
+  background: rgba(255,255,255,0.7); font-size: 0.8rem; font-weight: 600;
+  font-family: var(--font-body); cursor: pointer; color: var(--text-mid); transition: all 0.2s;
+}
+.toggle-btn.on { background: var(--lavender-light); border-color: var(--lavender-deep); color: var(--lavender-deep); }
+
+/* ==============================
+   FOOTER
+============================== */
+footer {
+  text-align: center; padding: 40px 24px;
+  font-size: 0.8rem; color: var(--text-light);
+  border-top: 1px solid rgba(180,160,210,0.2);
+  position: relative; z-index: 1;
+}
+footer strong { color: var(--lavender-deep); }
+
+/* ==============================
+   RESPONSIVE
+============================== */
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+  .form-grid { grid-template-columns: 1fr; }
+  .day-meta { display: none; }
+  .hero-title { font-size: clamp(2.5rem, 14vw, 5rem); }
+  .loc-cards { grid-template-columns: 1fr; }
+  .data-controls { flex-direction: column; }
+}
+
+/* Mobile nav open */
+.nav-mobile-menu {
+  display: none; position: fixed; inset: 0; z-index: 99;
+  background: rgba(255,255,255,0.97); backdrop-filter: blur(20px);
+  flex-direction: column; align-items: center; justify-content: center; gap: 16px;
+}
+.nav-mobile-menu.open { display: flex; }
+.nav-mobile-menu a {
+  font-size: 1.3rem; font-family: var(--font-display); color: var(--text-dark);
+  text-decoration: none; padding: 8px 24px;
+}
+
+/* Animate in */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Music toggle */
+.music-btn {
+  position: fixed; bottom: 28px; left: 28px; z-index: 90;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: rgba(255,255,255,0.8); backdrop-filter: blur(10px);
+  border: 1px solid rgba(180,160,210,0.4); cursor: pointer; font-size: 1.1rem;
+  box-shadow: var(--shadow); transition: all 0.2s; display: flex; align-items: center; justify-content: center;
+}
+.music-btn:hover { background: var(--lavender-light); }
+</style>
+</head>
+<body>
+
+<!-- ======= BG ORBS ======= -->
+<div class="bg-orbs">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+</div>
+
+<!-- ======= FLIGHT PLANE ======= -->
+<div class="flight-plane">✈️</div>
+
+<!-- ======= CLOUDS ======= -->
+<div class="cloud" style="top:12%;animation-duration:25s;animation-delay:-5s;">
+  <svg width="120" height="60" viewBox="0 0 120 60"><ellipse cx="60" cy="45" rx="55" ry="18"/><ellipse cx="40" cy="38" rx="30" ry="20"/><ellipse cx="75" cy="35" rx="28" ry="18"/></svg>
+</div>
+<div class="cloud" style="top:28%;animation-duration:35s;animation-delay:-15s;">
+  <svg width="80" height="40" viewBox="0 0 80 40"><ellipse cx="40" cy="30" rx="36" ry="12"/><ellipse cx="26" cy="25" rx="20" ry="14"/><ellipse cx="52" cy="23" rx="18" ry="12"/></svg>
+</div>
+
+<!-- ======= NAVBAR ======= -->
+<nav>
+  <a href="#" class="nav-logo">🇰🇷 <span>Seoul</span> 2026</a>
+  <div class="nav-links">
+    <a href="#hero">Home</a>
+    <a href="#dashboard">Stats</a>
+    <a href="#passport">Passport</a>
+    <a href="#itinerary">Itinerary</a>
+    <a href="#map-section">Map</a>
+    <a href="#discoveries">Discover</a>
+    <a href="#favorites">Favorites</a>
+    <a href="#gallery">Gallery</a>
+    <a class="nav-add-btn" onclick="openModal()">+ Add Place</a>
+  </div>
+  <div class="hamburger" onclick="toggleMobileMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="nav-mobile-menu" id="mobileMenu">
+  <a href="#hero" onclick="toggleMobileMenu()">Home</a>
+  <a href="#dashboard" onclick="toggleMobileMenu()">Stats</a>
+  <a href="#passport" onclick="toggleMobileMenu()">Passport</a>
+  <a href="#itinerary" onclick="toggleMobileMenu()">Itinerary</a>
+  <a href="#map-section" onclick="toggleMobileMenu()">Map</a>
+  <a href="#discoveries" onclick="toggleMobileMenu()">Discover</a>
+  <a href="#favorites" onclick="toggleMobileMenu()">Favorites</a>
+  <a href="#gallery" onclick="toggleMobileMenu()">Gallery</a>
+  <a onclick="openModal();toggleMobileMenu()">+ Add Place</a>
+</div>
+
+<!-- ======= HERO ======= -->
+<section id="hero">
+  <div class="hero-content fade-in">
+    <span class="hero-flag">🇰🇷</span>
+    <h1 class="hero-title">SEOUL<br><em>2026</em></h1>
+    <p class="hero-sub">The adventure begins in…</p>
+    <div class="countdown-wrap" id="countdown">
+      <div class="countdown-unit"><span class="countdown-num" id="cd-days">00</span><div class="countdown-label">Days</div></div>
+      <div class="countdown-unit"><span class="countdown-num" id="cd-hours">00</span><div class="countdown-label">Hours</div></div>
+      <div class="countdown-unit"><span class="countdown-num" id="cd-mins">00</span><div class="countdown-label">Minutes</div></div>
+      <div class="countdown-unit"><span class="countdown-num" id="cd-secs">00</span><div class="countdown-label">Seconds</div></div>
+    </div>
+    <div class="landed-msg" id="landedMsg">✈️ WE LANDED IN SEOUL 🇰🇷</div>
+  </div>
+
+  <!-- Airplane -->
+  <div class="airplane" style="animation-delay:-3s;">✈️</div>
+  <div class="airplane" style="top:60%;font-size:1.4rem;opacity:0.4;animation-duration:18s;animation-delay:-9s;">✈️</div>
+</section>
+
+<!-- ======= DASHBOARD ======= -->
+<section id="dashboard">
+  <div class="container">
+    <h2 class="section-title fade-in">Trip Dashboard</h2>
+    <p class="section-sub fade-in">Your Seoul adventure at a glance</p>
+    <div class="stats-grid" id="statsGrid"></div>
+    <div class="data-controls fade-in" style="margin-top:32px;">
+      <button class="btn-secondary" onclick="exportData()">📤 Export Trip Data</button>
+      <button class="btn-secondary" onclick="document.getElementById('importFile').click()">📥 Import Trip Data</button>
+      <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)">
+      <button class="btn-secondary" onclick="document.getElementById('searchOverlay').classList.add('open');document.getElementById('searchInput').focus()">🔎 Search All Places</button>
+    </div>
+  </div>
+</section>
+
+<!-- ======= PASSPORT ======= -->
+<section id="passport">
+  <div class="container">
+    <h2 class="section-title fade-in">Seoul Passport</h2>
+    <p class="section-sub fade-in">Collect stamps as you explore — every visit is a memory</p>
+    <div class="passport-card fade-in">
+      <div class="passport-header">
+        <div class="passport-cover">
+          <div class="passport-cover-flag">🇰🇷</div>
+          <div class="passport-cover-text">Seoul 2026</div>
+        </div>
+        <div class="passport-info">
+          <h2>Travel Passport</h2>
+          <p>🗓 July 2–8, 2026 · Republic of Korea</p>
+          <p style="margin-top:6px;" id="passportProgress">0 of 0 places visited</p>
+        </div>
+      </div>
+      <div class="passport-progress">
+        <div style="display:flex;justify-content:space-between;font-size:0.8rem;color:var(--text-mid);">
+          <span>Exploration Progress</span>
+          <span id="passportPct">0%</span>
+        </div>
+        <div class="passport-progress-bar"><div class="passport-progress-fill" id="passportFill" style="width:0%"></div></div>
+      </div>
+      <div class="stamps-grid" id="stampsGrid"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======= ITINERARY ======= -->
+<section id="itinerary">
+  <div class="container">
+    <h2 class="section-title fade-in">Daily Itinerary</h2>
+    <p class="section-sub fade-in">Seven days of magic in Seoul — tap a day to explore</p>
+    <div class="day-cards" id="dayCards"></div>
+  </div>
+</section>
+
+<!-- ======= MAP ======= -->
+<section id="map-section">
+  <div class="container">
+    <h2 class="section-title fade-in">🗺 Seoul Adventure Map</h2>
+    <p class="section-sub fade-in">Every pin is a memory waiting to be made</p>
+    <div class="map-container fade-in">
+      <div class="map-toolbar">
+        <input class="map-search" id="mapSearch" placeholder="🔍 Search locations…" oninput="filterMapPins()">
+        <button class="map-filter-btn active" data-filter="all" onclick="setMapFilter('all',this)">All</button>
+        <button class="map-filter-btn" data-filter="visited" onclick="setMapFilter('visited',this)">✓ Visited</button>
+        <button class="map-filter-btn" data-filter="favorites" onclick="setMapFilter('favorites',this)">❤️ Faves</button>
+        <button class="map-filter-btn" data-filter="☕" onclick="setMapFilter('☕',this)">☕</button>
+        <button class="map-filter-btn" data-filter="🛍" onclick="setMapFilter('🛍',this)">🛍</button>
+        <button class="map-filter-btn" data-filter="📸" onclick="setMapFilter('📸',this)">📸</button>
+        <button class="map-filter-btn" data-filter="🎨" onclick="setMapFilter('🎨',this)">🎨</button>
+        <button class="map-filter-btn" data-filter="🏯" onclick="setMapFilter('🏯',this)">🏯</button>
+      </div>
+      <div class="map-area" id="mapArea">
+        <div class="map-day-labels" id="mapDayLabels"></div>
+        <div id="mapPopup" class="map-popup">
+          <button onclick="document.getElementById('mapPopup').style.display='none'" style="float:right;background:none;border:none;cursor:pointer;font-size:0.8rem;">✕</button>
+          <h4 id="popupName">Name</h4>
+          <p id="popupInfo">Info</p>
+          <div class="map-popup-btns">
+            <button class="map-popup-btn loc-link-naver" id="popupNaver" onclick="openNaver()">📍 Naver</button>
+            <button class="map-popup-btn loc-link-dir" id="popupDir" onclick="openDir()">🚌 Go</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======= CHIBI'S DISCOVERIES ======= -->
+<section id="discoveries">
+  <div class="container">
+    <h2 class="section-title fade-in">✨ Chibi's Discoveries</h2>
+    <p class="section-sub fade-in">Places you shouldn't miss — handpicked recommendations</p>
+    <div class="disco-grid" id="discoGrid"></div>
+  </div>
+</section>
+
+<!-- ======= FAVORITES ======= -->
+<section id="favorites">
+  <div class="container">
+    <h2 class="section-title fade-in">❤️ Favorites Collection</h2>
+    <p class="section-sub fade-in">All the places your heart chose</p>
+    <div id="favGrid"></div>
+  </div>
+</section>
+
+<!-- ======= GALLERY ======= -->
+<section id="gallery">
+  <div class="container">
+    <h2 class="section-title fade-in">📸 Memory Gallery</h2>
+    <p class="section-sub fade-in">Attach photos to your visited places</p>
+    <div class="gallery-grid" id="galleryGrid">
+      <div class="gallery-add" onclick="addGalleryPhoto()">
+        <div class="gallery-add-icon">📸</div>
+        <div class="gallery-add-text">Add a memory</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======= CONTROLS ======= -->
+<section id="controls">
+  <div class="container">
+    <h2 class="section-title fade-in">Travel Modes</h2>
+    <p class="section-sub fade-in">Set the vibe for your Seoul adventure</p>
+    <div class="controls-grid">
+      <div class="control-card fade-in">
+        <div class="control-card-icon">✈️</div>
+        <h4>Flight Mode</h4>
+        <p>Clouds & airplanes fill the screen</p>
+        <button class="toggle-btn" id="flightBtn" onclick="toggleFlight()">Enable</button>
+      </div>
+      <div class="control-card fade-in">
+        <div class="control-card-icon">🎵</div>
+        <h4>Ambient Vibes</h4>
+        <p>Seoul-themed ambient atmosphere</p>
+        <button class="toggle-btn" id="musicBtn" onclick="toggleMusic()">Enable</button>
+      </div>
+      <div class="control-card fade-in">
+        <div class="control-card-icon">🌙</div>
+        <h4>Dreamy Mode</h4>
+        <p>Extra dreamy pastel gradients</p>
+        <button class="toggle-btn" id="dreamyBtn" onclick="toggleDreamy()">Enable</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======= FOOTER ======= -->
+<footer>
+  <p>🇰🇷 <strong>Seoul 2026</strong> — Your Digital Travel Companion · Made with 💜 for the adventure of a lifetime</p>
+  <p style="margin-top:8px;">July 2–8, 2026 · 서울특별시</p>
+</footer>
+
+<!-- ======= FLOATING ADD BTN ======= -->
+<button class="fab" onclick="openModal()" title="Add a place">+</button>
+
+<!-- ======= MUSIC BTN ======= -->
+<button class="music-btn" id="musicToggleBtn" onclick="toggleMusic()" title="Ambient vibes">🎵</button>
+
+<!-- ======= SEARCH OVERLAY ======= -->
+<div class="search-overlay" id="searchOverlay" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="search-box">
+    <div class="search-input-wrap">
+      <span class="search-icon">🔍</span>
+      <input class="search-input" id="searchInput" placeholder="Search all Seoul locations…" oninput="renderSearchResults()">
+      <button class="search-close" onclick="document.getElementById('searchOverlay').classList.remove('open')">✕</button>
+    </div>
+    <div class="search-results" id="searchResults"></div>
+  </div>
+</div>
+
+<!-- ======= ADD LOCATION MODAL ======= -->
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>+ Add a New Place</h2>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Location Name *</label>
+        <input class="form-input" id="f-name" placeholder="e.g. Cafe Onion Anguk">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Address</label>
+        <input class="form-input" id="f-addr" placeholder="e.g. 101, Bukchon-ro, Jongno-gu">
+      </div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">Category</label>
+          <select class="form-input form-select" id="f-cat">
+            <option value="☕">☕ Cafe</option>
+            <option value="🛍">🛍 Shopping</option>
+            <option value="📸">📸 Photo Booth</option>
+            <option value="🎨">🎨 Creative</option>
+            <option value="🌳">🌳 Nature</option>
+            <option value="🏯">🏯 Culture</option>
+            <option value="🎢">🎢 Entertainment</option>
+            <option value="🍽">🍽 Restaurant</option>
+            <option value="🌙">🌙 Nightlife</option>
+            <option value="✨">✨ Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Day Assignment</label>
+          <select class="form-input form-select" id="f-day">
+            <option value="auto">✨ Auto Detect</option>
+            <option value="0">Day 1 — Hongdae</option>
+            <option value="1">Day 2 — Seongsu</option>
+            <option value="2">Day 3 — Ikseondong</option>
+            <option value="3">Day 4 — Myeongdong</option>
+            <option value="4">Day 5 — Jamsil</option>
+            <option value="5">Day 6 — Nature</option>
+            <option value="6">Day 7 — Itaewon</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Notes</label>
+        <textarea class="form-input form-textarea" id="f-notes" placeholder="Tips, must-try items, opening hours…"></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Your Rating</label>
+        <div class="rating-input" id="f-rating-stars">
+          <span class="rating-star" onclick="setFormRating(1)">⭐</span>
+          <span class="rating-star" onclick="setFormRating(2)">⭐</span>
+          <span class="rating-star" onclick="setFormRating(3)">⭐</span>
+          <span class="rating-star" onclick="setFormRating(4)">⭐</span>
+          <span class="rating-star" onclick="setFormRating(5)">⭐</span>
+        </div>
+        <input type="hidden" id="f-rating" value="0">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Photo URL (optional)</label>
+        <input class="form-input" id="f-photo" placeholder="https://…">
+      </div>
+      <button class="btn-primary" onclick="saveLocation()">✨ Add to Itinerary</button>
+    </div>
+  </div>
+</div>
+
+<!-- ======= TOAST ======= -->
+<div class="toast" id="toast"></div>
+
+<script>
+// =============================================
+// DATA
+// =============================================
+const DAYS = [
+  {
+    id: 0, num: "01", title: "Hongdae + Yeonnam", area: "홍대 + 연남동",
+    desc: "Trendy art district meets vintage shopping — the creative heart of Seoul",
+    budget: "₩50,000–80,000", transport: "Line 2, Hongik Univ. Station",
+    colors: ["#c5b8f0","#9b8de0"],
+    locations: [
+      {id:"s1",name:"Hongdae",cat:"🛍",addr:"Wausan-ro, Mapo-gu",notes:"Main shopping street — best on weekends for street performers"},
+      {id:"s2",name:"Yeonnam-dong",cat:"🛍",addr:"Yeonnam-dong, Mapo-gu",notes:"Cozy alley vibes, great for browsing unique stores"},
+      {id:"s3",name:"Yeontral Vintage",cat:"🛍",addr:"Yeonnam-dong",notes:"Curated vintage finds"},
+      {id:"s4",name:"Kody Kings",cat:"🛍",addr:"Hongdae area",notes:"Streetwear heaven"},
+      {id:"s5",name:"V25 Vintage",cat:"🛍",addr:"Hongdae area",notes:"Affordable vintage mixed pieces"},
+      {id:"p1",name:"Eternalog",cat:"📸",addr:"Hongdae",notes:"Beautiful analog-style photo strips"},
+      {id:"p2",name:"Flip Book Photo Booth",cat:"📸",addr:"Hongdae",notes:"Make a flip book — so unique!"},
+      {id:"p3",name:"45ID",cat:"📸",addr:"Hongdae",notes:"High quality, stylish prints"},
+      {id:"c1",name:"Cafe Onion",cat:"☕",addr:"Hongdae branch",notes:"The iconic Seoul cafe — must visit"},
+      {id:"c2",name:"Cafe Highwaist",cat:"☕",addr:"Yeonnam-dong",notes:"Aesthetic cottagecore vibe"},
+      {id:"c3",name:"Antique Coffee",cat:"☕",addr:"Yeonnam-dong",notes:"Vintage deco, great lattes"},
+      {id:"c4",name:"1in1jan",cat:"☕",addr:"Hongdae",notes:"Known for creative specialty drinks"},
+      {id:"e1",name:"Batting Cage",cat:"🎢",addr:"Hongdae",notes:"Fun break between shopping — challenge each other!"},
+    ]
+  },
+  {
+    id: 1, num: "02", title: "Seongsu", area: "성수동",
+    desc: "Seoul's Brooklyn — industrial chic meets artisan studios and specialty coffee",
+    budget: "₩60,000–100,000", transport: "Line 2, Seongsu Station",
+    colors: ["#f5c0d0","#e8a0b8"],
+    locations: [
+      {id:"cr1",name:"Rettre Perfume",cat:"🎨",addr:"Seongsu-dong",notes:"Create your own signature Seoul scent — book in advance"},
+      {id:"cr2",name:"Crown Studio Pottery",cat:"🎨",addr:"Seongsu-dong",notes:"Wheel throwing class, beginner friendly"},
+      {id:"cr3",name:"Whipped",cat:"🎨",addr:"Seongsu-dong",notes:"Make your own whipped cosmetics"},
+      {id:"sh1",name:"Graphic by Daishin",cat:"🛍",addr:"Seongsu-dong",notes:"Iconic graphic tees & prints"},
+      {id:"sh2",name:"Franco Art Lab",cat:"🛍",addr:"Seongsu-dong",notes:"Art-forward fashion pieces"},
+      {id:"sh3",name:"Twifting",cat:"🛍",addr:"Seongsu-dong",notes:"Thrift meets art installation"},
+      {id:"sh4",name:"Seoulistique",cat:"🛍",addr:"Seongsu-dong",notes:"Curated Seoul-made accessories"},
+      {id:"pb1",name:"Reverie",cat:"📸",addr:"Seongsu-dong",notes:"Dreamy editorial-style photo booth"},
+      {id:"pb2",name:"Moum Studio",cat:"📸",addr:"Seongsu-dong",notes:"Minimal, clean aesthetic prints"},
+      {id:"pb3",name:"Eternalog Seongsu",cat:"📸",addr:"Seongsu-dong",notes:"Second location — often shorter wait"},
+      {id:"sc1",name:"Camel Coffee",cat:"☕",addr:"Seongsu-dong",notes:"Famous for the signature caramel drinks"},
+      {id:"sc2",name:"Leedorim",cat:"☕",addr:"Seongsu-dong",notes:"Hidden gem with incredible desserts"},
+      {id:"sc3",name:"Cement Room",cat:"☕",addr:"Seongsu-dong",notes:"Industrial aesthetic, perfect for photos"},
+      {id:"n1",name:"Seoul Forest",cat:"🌳",addr:"Seoul Forest-ro, Seongdong-gu",notes:"Beautiful riverside park — great for golden hour"},
+    ]
+  },
+  {
+    id: 2, num: "03", title: "Ikseondong + Jongno", area: "익선동 + 종로",
+    desc: "Traditional hanok alleyways reimagined — old Seoul meets new energy",
+    budget: "₩40,000–70,000", transport: "Line 1/3/5, Jongno 3-ga Station",
+    colors: ["#b8d8f0","#7fb8e8"],
+    locations: [
+      {id:"cu1",name:"Bukchon Hanok Village",cat:"🏯",addr:"Gyedong-gil, Jongno-gu",notes:"Early morning visit recommended — fewer crowds"},
+      {id:"cu2",name:"Donuimun Culture Village",cat:"🏯",addr:"Donuimun-dong, Jongno-gu",notes:"Open-air folk village experience"},
+      {id:"cu3",name:"Hanok Langsom",cat:"🏯",addr:"Ikseondong",notes:"Hanok-style experience cafe"},
+      {id:"ish1",name:"Ssamzigil",cat:"🛍",addr:"Insadong-gil, Jongno-gu",notes:"Multi-level artisan shopping complex — so unique"},
+      {id:"ish2",name:"Dohwaseoga",cat:"🛍",addr:"Ikseondong",notes:"Korean stationery and print goods"},
+      {id:"ic1",name:"Cheongsudang",cat:"☕",addr:"Ikseondong",notes:"Traditional tea house in a hanok"},
+      {id:"ic2",name:"Rain Report",cat:"☕",addr:"Ikseondong",notes:"Moody, cinematic coffee shop"},
+      {id:"ic3",name:"Myeongwol",cat:"☕",addr:"Ikseondong",notes:"Cozy craft coffee hidden in the alleys"},
+      {id:"ix1",name:"Like a Cinema",cat:"🎨",addr:"Ikseondong",notes:"Film-inspired immersive experience"},
+    ]
+  },
+  {
+    id: 3, num: "04", title: "Myeongdong + Dongdaemun", area: "명동 + 동대문",
+    desc: "Seoul's shopping epicentre — K-beauty, street food, and fashion paradise",
+    budget: "₩80,000–150,000", transport: "Line 4, Myeong-dong Station",
+    colors: ["#f5c0d0","#b8d8f0"],
+    locations: [
+      {id:"m1",name:"Myeongdong",cat:"🛍",addr:"Myeongdong, Jung-gu",notes:"K-beauty mecca — stock up on skincare here"},
+      {id:"m2",name:"Dongdaemun",cat:"🛍",addr:"Dongdaemun, Jung-gu",notes:"Fashion wholesale district, great for unique finds"},
+      {id:"m3",name:"Art Box",cat:"🛍",addr:"Myeongdong branch",notes:"Korean stationery & cute goods"},
+      {id:"mc1",name:"Break Silence",cat:"☕",addr:"Myeongdong",notes:"Aesthetic spot for a shopping break"},
+      {id:"mr1",name:"Sparex",cat:"✨",addr:"Jung-gu, Seoul",notes:"Relaxation spa — treat yourselves after a full day"},
+    ]
+  },
+  {
+    id: 4, num: "05", title: "Jamsil + Gangnam", area: "잠실 + 강남",
+    desc: "Glitzy south Seoul — theme parks, luxury shopping, and Insta-famous spots",
+    budget: "₩100,000–200,000", transport: "Line 2/8, Jamsil Station",
+    colors: ["#c5b8f0","#f5c0d0"],
+    locations: [
+      {id:"j1",name:"Lotte World",cat:"🎢",addr:"Olympic-ro 240, Songpa-gu",notes:"Indoor theme park — buy tickets in advance online"},
+      {id:"j2",name:"Starfield COEX Library",cat:"🛍",addr:"Teheran-ro 513, Gangnam-gu",notes:"The most beautiful library/bookstore — free entry, incredible for photos"},
+      {id:"j3",name:"Hyundai Seoul",cat:"🛍",addr:"Yeongdong-daero 513, Gangnam-gu",notes:"Luxury mall — rooftop is gorgeous"},
+      {id:"j4",name:"Jam Jam Brunch",cat:"🍽",addr:"Jamsil area",notes:"Popular brunch spot — arrive early or reserve"},
+    ]
+  },
+  {
+    id: 5, num: "06", title: "Nature Day", area: "자연의 날",
+    desc: "Breathe in Seoul — mountains, parks, and nature cafes hidden among trees",
+    budget: "₩30,000–50,000", transport: "Various — check each location",
+    colors: ["#b8f0d0","#7fb8e8"],
+    locations: [
+      {id:"na1",name:"Bukhansan National Park",cat:"🌳",addr:"Jeongneung, Seongbuk-gu",notes:"Hike Baegundae peak for panoramic Seoul views — start early"},
+      {id:"na2",name:"Namsan Park",cat:"🌳",addr:"Namsan, Jung-gu",notes:"N Seoul Tower hike — evening visit for city lights"},
+      {id:"na3",name:"Cafe Pokpo",cat:"☕",addr:"Near Bukhansan",notes:"Waterfall cafe — incredibly scenic"},
+      {id:"na4",name:"Irin Iljan",cat:"☕",addr:"Seongbuk-gu",notes:"Forest cafe with treehouse aesthetic"},
+      {id:"na5",name:"Hoehwa Namu",cat:"☕",addr:"Near Namsan",notes:"Traditional herbal tea cafe"},
+    ]
+  },
+  {
+    id: 6, num: "07", title: "Itaewon + Haebangchon", area: "이태원 + 해방촌",
+    desc: "Seoul's most international neighbourhood — global flavours and creative energy",
+    budget: "₩50,000–90,000", transport: "Line 6, Itaewon Station",
+    colors: ["#f0d8b0","#e8c090"],
+    locations: [
+      {id:"it1",name:"Eid Halal",cat:"🍽",addr:"Itaewon-ro, Yongsan-gu",notes:"Delicious halal Middle Eastern food — highly recommended"},
+      {id:"it2",name:"Itaewon",cat:"✨",addr:"Itaewon-ro, Yongsan-gu",notes:"Explore the main strip and side streets"},
+      {id:"it3",name:"Haebangchon",cat:"✨",addr:"Haebangchon-ro, Yongsan-gu",notes:"HBC — artistic, bohemian neighbourhood with indie cafes"},
+    ]
+  },
+];
+
+// RECOMMENDATIONS (Chibi's Discoveries)
+const RECOMMENDATIONS = [
+  { name: "Cafe Onion Anguk", cat: "☕", day: "Ikseondong", reason: "Near Bukchon Hanok Village — perfect post-walk stop", distance: "0.3km", rating: "⭐⭐⭐⭐⭐" },
+  { name: "Four Seasons Market", cat: "🛍", day: "Seongsu", reason: "Hidden concept store with Korean designer pieces", distance: "0.5km", rating: "⭐⭐⭐⭐" },
+  { name: "Naver Webtoon Library", cat: "🎨", day: "Jamsil", reason: "Next to COEX — immersive webtoon experience", distance: "0.2km", rating: "⭐⭐⭐⭐" },
+  { name: "Gyeongbokgung Palace", cat: "🏯", day: "Ikseondong", reason: "Rent hanbok and explore — stunning against the mountains", distance: "1.2km", rating: "⭐⭐⭐⭐⭐" },
+  { name: "Mangwon Market", cat: "🍽", day: "Hongdae", reason: "Local street food market near Hongdae — lunch stop", distance: "1.5km", rating: "⭐⭐⭐⭐" },
+  { name: "Bongeunsa Temple",  cat: "🏯", day: "Gangnam", reason: "Peaceful temple tucked behind COEX — unexpected gem", distance: "0.4km", rating: "⭐⭐⭐⭐⭐" },
+  { name: "Ttukseom Resort",   cat: "🌳", day: "Seongsu", reason: "Riverside park steps from Seoul Forest — bike rides!", distance: "0.8km", rating: "⭐⭐⭐⭐" },
+  { name: "Gwangjang Market",  cat: "🍽", day: "Ikseondong", reason: "Famous traditional market — try the bindaetteok!", distance: "1.0km", rating: "⭐⭐⭐⭐⭐" },
+  { name: "63 Art",            cat: "🎨", day: "Nature", reason: "Observation deck + gallery with Han River views", distance: "3km", rating: "⭐⭐⭐⭐" },
+];
+
+// MAP PIN POSITIONS (approximate % based on Seoul geography)
+const MAP_POSITIONS = {
+  "Hongdae": {x:18,y:42}, "Yeonnam-dong": {x:16,y:38}, "Seongsu": {x:72,y:48},
+  "Seoul Forest": {x:75,y:52}, "Bukchon Hanok Village": {x:55,y:30},
+  "Ikseondong": {x:58,y:42}, "Myeongdong": {x:52,y:55}, "Dongdaemun": {x:65,y:42},
+  "Lotte World": {x:78,y:72}, "COEX": {x:62,y:72}, "Namsan Park": {x:50,y:58},
+  "Bukhansan National Park": {x:42,y:14}, "Itaewon": {x:44,y:58}, "Haebangchon": {x:40,y:56},
+};
+const DAY_LABELS = [
+  {text:"홍대 Hongdae",x:14,y:36}, {text:"성수 Seongsu",x:68,y:42},
+  {text:"익선동 Ikseondong",x:52,y:26}, {text:"명동 Myeongdong",x:46,y:52},
+  {text:"잠실 Jamsil",x:74,y:68}, {text:"이태원 Itaewon",x:38,y:54},
+  {text:"북한산",x:38,y:10},
+];
+const CAT_COLORS = {"☕":"#b8d8f0","🛍":"#f5c0d0","📸":"#c5b8f0","🎨":"#fde8c0","🌳":"#c0f0d0","🏯":"#f0c8b8","🎢":"#e8c0f0","🍽":"#f0e8c0","🌙":"#b8c0f0","✨":"#f0f0c0"};
+
+// =============================================
+// STATE
+// =============================================
+let state = {
+  visited: {}, favorites: {}, ratings: {}, notes: {}, stamps: {},
+  customLocations: [], photos: [], settings: {}
+};
+let currentPopupLoc = null;
+let mapFilter = 'all';
+let formRating = 0;
+let flightMode = false, musicMode = false, dreamyMode = false;
+
+// =============================================
+// STORAGE
+// =============================================
+function saveState() {
+  try { localStorage.setItem('seoul2026', JSON.stringify(state)); } catch(e) {}
+}
+function loadState() {
+  try {
+    const d = localStorage.getItem('seoul2026');
+    if (d) state = { ...state, ...JSON.parse(d) };
+  } catch(e) {}
+}
+
+// =============================================
+// ALL LOCATIONS
+// =============================================
+function getAllLocations() {
+  const all = [];
+  DAYS.forEach(day => {
+    day.locations.forEach(loc => all.push({...loc, dayId: day.id, dayTitle: day.title}));
+  });
+  state.customLocations.forEach(loc => all.push(loc));
+  return all;
+}
+
+// =============================================
+// COUNTDOWN
+// =============================================
+const TARGET = new Date('2026-07-02T16:50:00+09:00');
+function updateCountdown() {
+  const now = new Date();
+  const diff = TARGET - now;
+  if (diff <= 0) {
+    document.getElementById('countdown').style.display = 'none';
+    document.getElementById('landedMsg').style.display = 'block';
+    triggerLanding();
+    return;
+  }
+  const d = Math.floor(diff/86400000);
+  const h = Math.floor((diff%86400000)/3600000);
+  const m = Math.floor((diff%3600000)/60000);
+  const s = Math.floor((diff%60000)/1000);
+  document.getElementById('cd-days').textContent = String(d).padStart(2,'0');
+  document.getElementById('cd-hours').textContent = String(h).padStart(2,'0');
+  document.getElementById('cd-mins').textContent = String(m).padStart(2,'0');
+  document.getElementById('cd-secs').textContent = String(s).padStart(2,'0');
+}
+function triggerLanding() {
+  launchConfetti();
+}
+function launchConfetti() {
+  const colors = ['#c5b8f0','#f5c0d0','#b8d8f0','#fde8c0','#c0f0d0'];
+  for (let i = 0; i < 120; i++) {
+    setTimeout(() => {
+      const el = document.createElement('div');
+      el.className = 'confetti-piece';
+      el.style.left = Math.random()*100+'vw';
+      el.style.background = colors[Math.floor(Math.random()*colors.length)];
+      el.style.animationDuration = (Math.random()*2+2)+'s';
+      el.style.animationDelay = (Math.random()*3)+'s';
+      el.style.width = (Math.random()*10+6)+'px';
+      el.style.height = (Math.random()*10+6)+'px';
+      el.style.borderRadius = Math.random()>0.5?'50%':'2px';
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 6000);
+    }, i*40);
+  }
+}
+
+// =============================================
+// DASHBOARD STATS
+// =============================================
+function renderDashboard() {
+  const all = getAllLocations();
+  const visited = all.filter(l => state.visited[l.id]).length;
+  const cafes = all.filter(l => l.cat==='☕').length;
+  const shopping = all.filter(l => l.cat==='🛍').length;
+  const photobooths = all.filter(l => l.cat==='📸').length;
+  const entertainment = all.filter(l => l.cat==='🎢').length;
+  const culture = all.filter(l => l.cat==='🏯').length;
+  const stats = [
+    {emoji:'📍',num:all.length,label:'Total Places',pct:100},
+    {emoji:'☕',num:cafes,label:'Cafes',pct:(cafes/all.length)*100},
+    {emoji:'🛍',num:shopping,label:'Shopping',pct:(shopping/all.length)*100},
+    {emoji:'📸',num:photobooths,label:'Photo Booths',pct:(photobooths/all.length)*100},
+    {emoji:'🎢',num:entertainment,label:'Entertainment',pct:(entertainment/all.length)*100},
+    {emoji:'🏯',num:culture,label:'Cultural Sites',pct:(culture/all.length)*100},
+    {emoji:'✅',num:visited,label:'Places Visited',pct:(visited/all.length)*100},
+    {emoji:'🗓',num:7,label:'Days Planned',pct:100},
+  ];
+  const g = document.getElementById('statsGrid');
+  g.innerHTML = stats.map((s,i) => `
+    <div class="stat-card fade-in" style="animation-delay:${i*0.08}s">
+      <span class="stat-emoji">${s.emoji}</span>
+      <span class="stat-num" data-target="${s.num}">0</span>
+      <div class="stat-label">${s.label}</div>
+      <div class="stat-bar"><div class="stat-bar-fill" style="width:0%" data-pct="${Math.round(s.pct)}"></div></div>
+    </div>
+  `).join('');
+  // Animate counters
+  setTimeout(() => {
+    document.querySelectorAll('.stat-num').forEach(el => {
+      const target = parseInt(el.dataset.target);
+      let cur = 0;
+      const step = Math.ceil(target/30);
+      const t = setInterval(() => {
+        cur = Math.min(cur+step, target);
+        el.textContent = cur;
+        if (cur >= target) clearInterval(t);
+      }, 40);
+    });
+    document.querySelectorAll('.stat-bar-fill').forEach(el => {
+      el.style.width = el.dataset.pct+'%';
+    });
+  }, 300);
+}
+
+// =============================================
+// PASSPORT
+// =============================================
+function renderPassport() {
+  const all = getAllLocations();
+  const visited = all.filter(l => state.visited[l.id]).length;
+  const pct = Math.round((visited/all.length)*100);
+  document.getElementById('passportProgress').textContent = `${visited} of ${all.length} places visited`;
+  document.getElementById('passportPct').textContent = pct+'%';
+  document.getElementById('passportFill').style.width = pct+'%';
+
+  // Show one stamp per day
+  const sg = document.getElementById('stampsGrid');
+  sg.innerHTML = DAYS.map(day => {
+    const dayLocs = day.locations;
+    const visitedCount = dayLocs.filter(l => state.visited[l.id]).length;
+    const isStamped = visitedCount > 0;
+    const date = state.stamps[`day-${day.id}`] || '';
+    return `<div class="stamp ${isStamped?'stamped':''}" onclick="stampDay(${day.id})">
+      <span class="stamp-emoji">${isStamped?'🗂':'🌸'}</span>
+      <div class="stamp-name">Day ${day.num}<br>${day.title.split(' ')[0]}</div>
+      ${date?`<div class="stamp-date">${date}</div>`:''}
+      <div style="font-size:0.6rem;color:var(--text-light);margin-top:4px;">${visitedCount}/${dayLocs.length}</div>
+    </div>`;
+  }).join('');
+}
+function stampDay(dayId) {
+  if (!state.stamps[`day-${dayId}`]) {
+    state.stamps[`day-${dayId}`] = new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short'});
+    saveState(); renderPassport(); showToast('🗂 Passport stamp added!');
+  }
+}
+
+// =============================================
+// ITINERARY
+// =============================================
+function renderItinerary() {
+  const g = document.getElementById('dayCards');
+  g.innerHTML = DAYS.map((day, di) => {
+    const cats = {};
+    day.locations.forEach(loc => {
+      if (!cats[loc.cat]) cats[loc.cat] = [];
+      cats[loc.cat].push(loc);
+    });
+    // Add custom locations for this day
+    state.customLocations.filter(l => l.dayId === day.id).forEach(loc => {
+      if (!cats[loc.cat]) cats[loc.cat] = [];
+      cats[loc.cat].push(loc);
+    });
+    const catLabels = {"☕":"Cafes","🛍":"Shopping","📸":"Photo Booths","🎨":"Creative Experiences","🌳":"Nature","🏯":"Culture","🎢":"Entertainment","🍽":"Food","🌙":"Nightlife","✨":"Other"};
+    const catsHtml = Object.entries(cats).map(([cat, locs]) => `
+      <div class="cat-section">
+        <div class="cat-title">${cat} ${catLabels[cat]||cat}</div>
+        <div class="loc-cards">${locs.map(loc => locCardHTML(loc, day.id)).join('')}</div>
+      </div>
+    `).join('');
+
+    return `
+      <div class="day-card fade-in" id="daycard-${day.id}" style="animation-delay:${di*0.1}s">
+        <div class="day-header" onclick="toggleDay(${day.id})">
+          <div class="day-header-left">
+            <div class="day-badge" style="background:linear-gradient(135deg,${day.colors[0]||'#c5b8f0'},${day.colors[1]||'#9b8de0'});color:${day.id===5?'#2d8050':'white'}">${day.num}</div>
+            <div class="day-title-area">
+              <h3>${day.title}</h3>
+              <p>${day.area} · ${day.desc}</p>
+            </div>
+          </div>
+          <div class="day-meta">
+            <span class="day-meta-chip">💰 ${day.budget}</span>
+            <span class="day-meta-chip">${day.locations.length} places</span>
+            <span class="day-chevron">▾</span>
+          </div>
+        </div>
+        <div class="day-body">
+          <div class="day-info-strip">
+            <div class="day-info-item"><span class="day-info-icon">🚇</span>${day.transport}</div>
+            <div class="day-info-item"><span class="day-info-icon">💰</span>${day.budget}</div>
+            <div class="day-info-item"><span class="day-info-icon">🌤</span>Weather: Check day-of</div>
+          </div>
+          ${catsHtml}
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function locCardHTML(loc, dayId) {
+  const isVisited = !!state.visited[loc.id];
+  const isFav = !!state.favorites[loc.id];
+  const rating = state.ratings[loc.id] || loc.rating || 0;
+  const stars = '⭐'.repeat(rating) + '☆'.repeat(5-rating);
+  const notes = state.notes[loc.id] || loc.notes || '';
+  const naverQ = encodeURIComponent(loc.name + ' ' + (loc.addr||'Seoul'));
+  return `
+    <div class="loc-card ${isVisited?'visited':''}" id="lc-${loc.id}">
+      ${isVisited?`<div class="visited-stamp">✓ Visited</div>`:''}
+      <div class="loc-card-top">
+        <span class="loc-cat-badge">${loc.cat}</span>
+        <div class="loc-actions">
+          <button class="loc-btn btn-fav ${isFav?'active':''}" onclick="toggleFav('${loc.id}')" title="Favorite">❤️</button>
+          <button class="loc-btn btn-visit ${isVisited?'active':''}" onclick="toggleVisit('${loc.id}',${dayId})" title="Mark visited">✅</button>
+        </div>
+      </div>
+      <div class="loc-name">${loc.name}</div>
+      <div class="loc-addr">${loc.addr||''}</div>
+      ${notes?`<div class="loc-notes">${notes}</div>`:''}
+      <div class="loc-rating">${[1,2,3,4,5].map(n=>`<span class="star" onclick="setRating('${loc.id}',${n})">${n<=rating?'⭐':'☆'}</span>`).join('')}</div>
+      <div class="loc-links">
+        <button class="loc-link loc-link-naver" onclick="openNaverMap('${naverQ}')">📍 Naver Maps</button>
+        <button class="loc-link loc-link-dir" onclick="openDirections('${naverQ}')">🚌 Directions</button>
+      </div>
+    </div>`;
+}
+
+function toggleDay(id) {
+  const card = document.getElementById('daycard-'+id);
+  card.classList.toggle('open');
+}
+function toggleVisit(id, dayId) {
+  state.visited[id] = !state.visited[id];
+  if (state.visited[id]) {
+    showToast('✅ Marked as visited!');
+    launchMiniConfetti();
+    // Auto stamp day
+    if (!state.stamps[`day-${dayId}`]) {
+      state.stamps[`day-${dayId}`] = new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short'});
+    }
+  } else { showToast('↩️ Unmarked'); }
+  saveState(); renderItinerary(); renderPassport(); renderDashboard(); renderFavorites(); renderMap();
+}
+function toggleFav(id) {
+  state.favorites[id] = !state.favorites[id];
+  showToast(state.favorites[id]?'❤️ Added to favorites':'💔 Removed from favorites');
+  saveState(); renderItinerary(); renderFavorites();
+}
+function setRating(id, rating) {
+  state.ratings[id] = rating;
+  saveState(); renderItinerary();
+}
+
+// =============================================
+// NAVER MAPS
+// =============================================
+function openNaverMap(q) {
+  window.open(`https://map.naver.com/v5/search/${q}`, '_blank');
+}
+function openDirections(q) {
+  window.open(`https://map.naver.com/v5/directions/-/-/${encodeURIComponent(q)}`, '_blank');
+}
+
+// =============================================
+// MAP
+// =============================================
+function renderMap() {
+  const area = document.getElementById('mapArea');
+  // Remove old pins
+  area.querySelectorAll('.map-pin').forEach(p => p.remove());
+
+  // Day area labels
+  const labelsEl = document.getElementById('mapDayLabels');
+  labelsEl.innerHTML = DAY_LABELS.map(l =>
+    `<div class="map-day-label" style="left:${l.x}%;top:${l.y}%">${l.text}</div>`
+  ).join('');
+
+  const all = getAllLocations();
+  const search = document.getElementById('mapSearch').value.toLowerCase();
+
+  all.forEach((loc, i) => {
+    // Filter
+    if (mapFilter === 'visited' && !state.visited[loc.id]) return;
+    if (mapFilter === 'favorites' && !state.favorites[loc.id]) return;
+    if (mapFilter.length === 2 && loc.cat !== mapFilter) return; // emoji filter
+    if (search && !loc.name.toLowerCase().includes(search) && !(loc.addr||'').toLowerCase().includes(search)) return;
+
+    // Find position
+    let pos = null;
+    Object.entries(MAP_POSITIONS).forEach(([k,v]) => {
+      if (loc.name.toLowerCase().includes(k.toLowerCase()) || (loc.addr||'').toLowerCase().includes(k.toLowerCase())) pos = v;
+    });
+    if (!pos) {
+      // Assign based on dayId
+      const dayPos = [{x:20,y:45},{x:70,y:50},{x:55,y:38},{x:50,y:58},{x:76,y:70},{x:42,y:20},{x:44,y:62}];
+      const base = dayPos[loc.dayId] || {x:50,y:50};
+      pos = { x: base.x + (Math.sin(i*1.7)*8), y: base.y + (Math.cos(i*2.3)*8) };
+    }
+    // Clamp
+    pos = { x: Math.max(3, Math.min(95, pos.x)), y: Math.max(3, Math.min(92, pos.y)) };
+
+    const pin = document.createElement('div');
+    pin.className = 'map-pin';
+    pin.style.left = pos.x+'%';
+    pin.style.top = pos.y+'%';
+    pin.innerHTML = `
+      <div class="map-pin-dot" style="background:${CAT_COLORS[loc.cat]||'#c5b8f0'};${state.visited[loc.id]?'opacity:0.6':''}">
+        <span>${loc.cat}</span>
+      </div>
+      <div class="map-pin-label">${loc.name}</div>`;
+    pin.onclick = (e) => { e.stopPropagation(); showMapPopup(loc, pos); };
+    area.appendChild(pin);
+  });
+}
+
+function showMapPopup(loc, pos) {
+  currentPopupLoc = loc;
+  const popup = document.getElementById('mapPopup');
+  const naverQ = encodeURIComponent(loc.name + ' ' + (loc.addr||'Seoul'));
+  document.getElementById('popupName').textContent = loc.cat + ' ' + loc.name;
+  document.getElementById('popupInfo').textContent = (loc.addr||'Seoul') + ' · ' + (DAYS[loc.dayId]?.title||'Custom');
+  popup.style.display = 'block';
+  popup.style.left = Math.min(pos.x, 70)+'%';
+  popup.style.top = Math.min(pos.y+8, 75)+'%';
+  popup._naverQ = naverQ;
+}
+function openNaver() {
+  const popup = document.getElementById('mapPopup');
+  if (popup._naverQ) openNaverMap(popup._naverQ);
+}
+function openDir() {
+  const popup = document.getElementById('mapPopup');
+  if (popup._naverQ) openDirections(popup._naverQ);
+}
+function setMapFilter(f, btn) {
+  mapFilter = f;
+  document.querySelectorAll('.map-filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderMap();
+}
+function filterMapPins() { renderMap(); }
+
+// Close popup on map click
+document.addEventListener('click', e => {
+  if (!e.target.closest('.map-pin') && !e.target.closest('#mapPopup')) {
+    document.getElementById('mapPopup').style.display = 'none';
+  }
+});
+
+// =============================================
+// CHIBI'S DISCOVERIES
+// =============================================
+function renderDiscoveries() {
+  const g = document.getElementById('discoGrid');
+  g.innerHTML = RECOMMENDATIONS.map((r,i) => `
+    <div class="disco-card fade-in" style="animation-delay:${i*0.07}s">
+      <div class="disco-card-header">
+        <span class="disco-tag">${r.cat}</span>
+        <span class="disco-rating">${r.rating}</span>
+      </div>
+      <div class="disco-name">${r.name}</div>
+      <div class="disco-reason">✨ ${r.reason}</div>
+      <div class="disco-chips">
+        <span class="disco-chip">📍 ${r.distance}</span>
+        <span class="disco-chip">🗓 ${r.day} Day</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+// =============================================
+// FAVORITES
+// =============================================
+function renderFavorites() {
+  const all = getAllLocations();
+  const favs = all.filter(l => state.favorites[l.id]);
+  const g = document.getElementById('favGrid');
+  if (!favs.length) {
+    g.innerHTML = `<div class="fav-empty"><div class="fav-empty-icon">💜</div><p>No favorites yet — tap the ❤️ on any location to save it here</p></div>`;
+    return;
+  }
+  g.innerHTML = `<div class="loc-cards">${favs.map(loc => locCardHTML(loc, loc.dayId)).join('')}</div>`;
+}
+
+// =============================================
+// ADD LOCATION MODAL
+// =============================================
+function openModal() {
+  document.getElementById('modalOverlay').classList.add('open');
+  document.getElementById('f-name').focus();
+}
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  resetForm();
+}
+function resetForm() {
+  ['f-name','f-addr','f-notes','f-photo'].forEach(id => document.getElementById(id).value='');
+  document.getElementById('f-cat').value='☕';
+  document.getElementById('f-day').value='auto';
+  document.getElementById('f-rating').value='0';
+  formRating = 0;
+}
+function setFormRating(n) {
+  formRating = n;
+  document.getElementById('f-rating').value = n;
+  document.querySelectorAll('#f-rating-stars .rating-star').forEach((s,i) => {
+    s.textContent = i < n ? '⭐' : '☆';
+  });
+}
+function autoDetectDay(name, addr) {
+  const text = (name + ' ' + addr).toLowerCase();
+  if (text.includes('hongdae') || text.includes('yeonnam') || text.includes('합정') || text.includes('mapo')) return 0;
+  if (text.includes('seongsu') || text.includes('성수') || text.includes('seondong')) return 1;
+  if (text.includes('ikseondong') || text.includes('익선') || text.includes('bukchon') || text.includes('jongno') || text.includes('insadong')) return 2;
+  if (text.includes('myeongdong') || text.includes('명동') || text.includes('dongdaemun') || text.includes('동대문')) return 3;
+  if (text.includes('jamsil') || text.includes('잠실') || text.includes('gangnam') || text.includes('강남') || text.includes('coex')) return 4;
+  if (text.includes('bukhansan') || text.includes('북한산') || text.includes('namsan') || text.includes('남산')) return 5;
+  if (text.includes('itaewon') || text.includes('이태원') || text.includes('haebangchon') || text.includes('해방촌')) return 6;
+  return 0; // default Hongdae
+}
+function saveLocation() {
+  const name = document.getElementById('f-name').value.trim();
+  if (!name) { showToast('⚠️ Please enter a location name'); return; }
+  const addr = document.getElementById('f-addr').value.trim();
+  const cat = document.getElementById('f-cat').value;
+  let dayId = document.getElementById('f-day').value;
+  if (dayId === 'auto') dayId = autoDetectDay(name, addr);
+  else dayId = parseInt(dayId);
+  const notes = document.getElementById('f-notes').value.trim();
+  const rating = parseInt(document.getElementById('f-rating').value) || 0;
+  const photo = document.getElementById('f-photo').value.trim();
+  const id = 'custom-' + Date.now();
+  const loc = { id, name, addr, cat, dayId, dayTitle: DAYS[dayId].title, notes, rating, photo, custom: true };
+  state.customLocations.push(loc);
+  saveState();
+  closeModal();
+  showToast(`✅ ${name} added to Day ${dayId+1}!`);
+  renderItinerary(); renderDashboard(); renderPassport(); renderMap(); renderFavorites();
+}
+
+// =============================================
+// SEARCH
+// =============================================
+function renderSearchResults() {
+  const q = document.getElementById('searchInput').value.toLowerCase().trim();
+  const r = document.getElementById('searchResults');
+  if (!q) { r.innerHTML = '<div class="search-empty">Start typing to search all Seoul locations</div>'; return; }
+  const all = getAllLocations();
+  const matches = all.filter(l =>
+    l.name.toLowerCase().includes(q) ||
+    (l.addr||'').toLowerCase().includes(q) ||
+    (l.notes||'').toLowerCase().includes(q) ||
+    l.cat.includes(q)
+  );
+  if (!matches.length) { r.innerHTML = '<div class="search-empty">No locations found for "'+q+'"</div>'; return; }
+  r.innerHTML = matches.map(l => `
+    <div class="search-result-item" onclick="scrollToLocation('${l.id}','${l.dayId}')">
+      <span class="search-result-cat">${l.cat}</span>
+      <div class="search-result-info">
+        <h4>${l.name}</h4>
+        <p>${l.addr||''} · Day ${(DAYS[l.dayId]?.num)||'?'} ${DAYS[l.dayId]?.title||''}</p>
+      </div>
+    </div>
+  `).join('');
+}
+function scrollToLocation(locId, dayId) {
+  document.getElementById('searchOverlay').classList.remove('open');
+  // Open the day card and scroll
+  const card = document.getElementById('daycard-'+dayId);
+  if (card && !card.classList.contains('open')) card.classList.add('open');
+  setTimeout(() => {
+    const locEl = document.getElementById('lc-'+locId);
+    if (locEl) locEl.scrollIntoView({behavior:'smooth', block:'center'});
+  }, 200);
+}
+
+// =============================================
+// EXPORT / IMPORT
+// =============================================
+function exportData() {
+  const data = { state, exportDate: new Date().toISOString(), version: '1.0' };
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+  a.download = 'seoul-2026-trip-data.json'; a.click();
+  showToast('📤 Trip data exported!');
+}
+function importData(event) {
+  const file = event.target.files[0]; if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (data.state) {
+        state = { ...state, ...data.state };
+        saveState();
+        renderAll();
+        showToast('📥 Trip data imported successfully!');
+      }
+    } catch(err) { showToast('❌ Invalid file format'); }
+  };
+  reader.readAsText(file);
+}
+
+// =============================================
+// GALLERY
+// =============================================
+function addGalleryPhoto() {
+  const url = prompt('Enter photo URL (or paste a link to your image):');
+  if (!url) return;
+  const label = prompt('Caption for this photo:') || 'Seoul Memory';
+  state.photos = state.photos || [];
+  state.photos.push({ url, label, date: new Date().toLocaleDateString() });
+  saveState(); renderGallery();
+}
+function renderGallery() {
+  const photos = state.photos || [];
+  const g = document.getElementById('galleryGrid');
+  g.innerHTML = photos.map((p,i) => `
+    <div class="gallery-item">
+      <img src="${p.url}" alt="${p.label}" onerror="this.style.display='none'">
+      <div class="gallery-item-label">${p.label}</div>
+    </div>
+  `).join('') + `
+    <div class="gallery-add" onclick="addGalleryPhoto()">
+      <div class="gallery-add-icon">📸</div>
+      <div class="gallery-add-text">Add a memory</div>
+    </div>`;
+}
+
+// =============================================
+// CONTROLS
+// =============================================
+function toggleFlight() {
+  flightMode = !flightMode;
+  document.body.classList.toggle('flight-mode-active', flightMode);
+  document.getElementById('flightBtn').classList.toggle('on', flightMode);
+  document.getElementById('flightBtn').textContent = flightMode ? 'Disable' : 'Enable';
+  showToast(flightMode ? '✈️ Flight Mode activated!' : '✈️ Flight Mode off');
+}
+function toggleMusic() {
+  musicMode = !musicMode;
+  document.getElementById('musicBtn').classList.toggle('on', musicMode);
+  document.getElementById('musicBtn').textContent = musicMode ? 'Disable' : 'Enable';
+  document.getElementById('musicToggleBtn').textContent = musicMode ? '🔇' : '🎵';
+  showToast(musicMode ? '🎵 Ambient vibes on — imagine Seoul background sounds~' : '🔇 Vibes off');
+}
+function toggleDreamy() {
+  dreamyMode = !dreamyMode;
+  document.getElementById('dreamyBtn').classList.toggle('on', dreamyMode);
+  document.getElementById('dreamyBtn').textContent = dreamyMode ? 'Disable' : 'Enable';
+  document.documentElement.style.setProperty('--cream', dreamyMode ? '#f8f0ff' : '#fdf8f2');
+  document.querySelectorAll('.orb').forEach(o => o.style.opacity = dreamyMode ? '0.55' : '0.35');
+  showToast(dreamyMode ? '🌙 Dreamy mode on ✨' : '☀️ Back to normal');
+}
+
+// =============================================
+// TOAST
+// =============================================
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// =============================================
+// MINI CONFETTI (on visit)
+// =============================================
+function launchMiniConfetti() {
+  const colors = ['#c5b8f0','#f5c0d0','#b8d8f0'];
+  for (let i = 0; i < 20; i++) {
+    setTimeout(() => {
+      const el = document.createElement('div');
+      el.className = 'confetti-piece';
+      el.style.left = (30+Math.random()*40)+'vw';
+      el.style.top = '20vh';
+      el.style.background = colors[Math.floor(Math.random()*colors.length)];
+      el.style.animationDuration = '1.5s';
+      el.style.width = '8px'; el.style.height = '8px';
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 2000);
+    }, i*50);
+  }
+}
+
+// =============================================
+// MOBILE MENU
+// =============================================
+function toggleMobileMenu() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+
+// =============================================
+// INTERSECTION OBSERVER (fade in)
+// =============================================
+function initFadeIn() {
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+}
+
+// =============================================
+// KEYBOARD SHORTCUTS
+// =============================================
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.getElementById('searchOverlay').classList.remove('open');
+    closeModal();
+  }
+  if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+    e.preventDefault();
+    document.getElementById('searchOverlay').classList.add('open');
+    document.getElementById('searchInput').focus();
+  }
+});
+
+// =============================================
+// RENDER ALL
+// =============================================
+function renderAll() {
+  renderDashboard();
+  renderPassport();
+  renderItinerary();
+  renderMap();
+  renderDiscoveries();
+  renderFavorites();
+  renderGallery();
+  initFadeIn();
+}
+
+// =============================================
+// INIT
+// =============================================
+loadState();
+renderAll();
+updateCountdown();
+setInterval(updateCountdown, 1000);
+
+// Hero fade in
+setTimeout(() => document.querySelector('.hero-content').classList.add('visible'), 200);
+</script>
+</body>
+</html>
